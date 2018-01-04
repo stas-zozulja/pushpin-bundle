@@ -1,7 +1,8 @@
 # GammaPushpinBundle
 Symfony Bundle that helps you to add a realtime features to your applications using [Pushpin](http://pushpin.org/) reverse proxy. Integrates [php-gripcontrol](https://github.com/fanout/php-gripcontrol) library.
 
-##Features
+Features
+------------
 - Works with [WebSocket-over-HTTP Requests](https://github.com/fanout/pushpin/blob/master/docs/websocket-over-http.md) from Pushpin
 - De serializes (using [jms/serializer](http://jmsyst.com/libs/serializer)) a TEXT events from Pushpin into DTOs (events) specified by your configuration
 - Handling WebSocketEvent with your specific handler
