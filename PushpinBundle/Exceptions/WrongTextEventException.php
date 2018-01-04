@@ -13,5 +13,4 @@ class WrongTextEventException extends \RuntimeException
     {
         $this->message = sprintf('Cannot create TextEvent from WebSocketEvent event: "%s"', json_encode($webSocketEvent));
     }
-
 }

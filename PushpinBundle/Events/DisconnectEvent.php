@@ -4,7 +4,6 @@ namespace Gamma\Pushpin\PushpinBundle\Events;
 
 use Gamma\Pushpin\PushpinBundle\Events\Base\AbstractEvent;
 use Gamma\Pushpin\PushpinBundle\Interfaces\Events\DisconnectEventInterface;
-use Gamma\Pushpin\PushpinBundle\Interfaces\Events\OpenEventInterface;
 
 class DisconnectEvent extends AbstractEvent implements DisconnectEventInterface
 {

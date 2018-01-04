@@ -53,7 +53,7 @@ class EventParser
     {
         $jsonStart = strpos($webSocketEvent->content, self::$separator.'{');
 
-        if ($jsonStart === false) {
+        if (false === $jsonStart) {
             throw new WrongJsonEventException($webSocketEvent);
         }
 

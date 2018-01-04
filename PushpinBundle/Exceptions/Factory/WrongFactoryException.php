@@ -1,8 +1,6 @@
 <?php
 
-
 namespace Gamma\Pushpin\PushpinBundle\Exceptions\Factory;
-
 
 class WrongFactoryException extends \RuntimeException
 {

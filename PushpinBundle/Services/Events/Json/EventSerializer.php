@@ -33,7 +33,7 @@ class EventSerializer
 
     /**
      * @param AbstractJsonEvent $event
-     * 
+     *
      * @return AbstractJsonEvent
      */
     public function deserialize(AbstractJsonEvent $event)

@@ -7,7 +7,7 @@ use Gamma\Pushpin\PushpinBundle\Interfaces\Events\TextEventInterface;
 use Gamma\Pushpin\PushpinBundle\Interfaces\Factory\EventFactoryInterface;
 use GripControl\WebSocketEvent;
 
-class TextEventFactory implements EventFactoryInterface
+class TextEventFactory extends AbstractEventFactory
 {
     /**
      * @var array
@@ -23,21 +23,6 @@ class TextEventFactory implements EventFactoryInterface
     }
 
     /**
-     * @param string $format Text event format e.g. 'json'
-     *
-     * @return EventFactoryInterface
-     */
-    private function getFactoryByFormat($format)
-    {
-        if (array_key_exists($format, $this->factories)) {
-            return $this->factories[$format];
-        }
-        throw new \RuntimeException(
-            sprintf('Unknown event format "%s"', $format)
-        );
-    }
-
-    /**
      * {@inheritdoc}
      */
     public function getFormat()
@@ -50,16 +35,29 @@ class TextEventFactory implements EventFactoryInterface
      */
     public function getEvent(WebSocketEvent $webSocketEvent, $format = null)
     {
+        $this->ensureCanBeCreated($webSocketEvent, $format);
+        $factory = $this->factories[$format];
+
+        return $factory->getEvent($webSocketEvent);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    protected function ensureCanBeCreated(WebSocketEvent $event, $format = null)
+    {
         if (is_null($format)) {
             throw new \RuntimeException('Format cannot be null');
         }
 
-        if (TextEventInterface::EVENT_TYPE !== $webSocketEvent->type) {
-            throw new UnsupportedEventTypeException($this, $webSocketEvent);
+        if (false === array_key_exists($format, $this->factories)) {
+            throw new \RuntimeException(
+                sprintf('Unknown event format "%s"', $format)
+            );
         }
 
-        $factory = $this->getFactoryByFormat($format);
-
-        return $factory->getEvent($webSocketEvent);
+        if (TextEventInterface::EVENT_TYPE !== $event->type) {
+            throw new UnsupportedEventTypeException($this, $event);
+        }
     }
 }

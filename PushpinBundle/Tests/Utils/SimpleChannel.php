@@ -2,6 +2,7 @@
 /**
  * Created for testing purposes only.
  */
+
 namespace Gamma\Pushpin\PushpinBundle\Tests\Utils;
 
 use Gamma\Pushpin\PushpinBundle\Interfaces\WebSocketChannelInterface;

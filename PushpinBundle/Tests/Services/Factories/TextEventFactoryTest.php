@@ -98,7 +98,6 @@ class TextEventFactoryTest extends TestCase
         ];
     }
 
-
     /**
      * @expectedException \Gamma\Pushpin\PushpinBundle\Exceptions\WrongJsonEventException
      * @covers \Gamma\Pushpin\PushpinBundle\Services\Factories\TextEventFactory::getEvent()
@@ -135,7 +134,9 @@ class TextEventFactoryTest extends TestCase
      */
     public function testGetFormat()
     {
-        static::assertEquals('TEXT',
-            self::$instance->getFormat());
+        static::assertEquals(
+            'TEXT',
+            self::$instance->getFormat()
+        );
     }
 }

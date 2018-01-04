@@ -4,7 +4,6 @@ namespace Gamma\Pushpin\PushpinBundle\Interfaces\Events;
 
 interface EventInterface
 {
-
     /**
      * @return string
      */

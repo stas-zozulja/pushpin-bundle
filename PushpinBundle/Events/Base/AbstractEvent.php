@@ -21,7 +21,7 @@ abstract class AbstractEvent extends WebSocketEvent implements EventInterface
     }
 
     /**
-     * @return boolean
+     * @return bool
      */
     abstract public function hasSubTypes();
 }

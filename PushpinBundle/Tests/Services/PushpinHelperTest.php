@@ -59,7 +59,6 @@ class PushpinHelperTest extends TestCase
         static::assertInstanceOf('GripControl\WebSocketEvent', $detachEvent);
         static::assertEquals('TEXT', $detachEvent->type);
         static::assertEquals('c:{"type":"detach"}', $detachEvent->content);
-
     }
 
     /**
@@ -72,6 +71,5 @@ class PushpinHelperTest extends TestCase
         static::assertInstanceOf('GripControl\WebSocketEvent', $textEvent);
         static::assertEquals('TEXT', $textEvent->type);
         static::assertEquals('test text', $textEvent->content);
-
     }
 }
