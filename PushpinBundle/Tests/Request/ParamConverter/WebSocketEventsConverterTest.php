@@ -1,6 +1,6 @@
 <?php
 
-namespace PushpinBundle\Tests\Services\Request\ParamConverter;
+namespace  Gamma\Pushpin\PushpinBundle\Tests\Request\ParamConverter;
 
 use Gamma\Pushpin\PushpinBundle\Dto\WebSocketEventsDto;
 use Gamma\Pushpin\PushpinBundle\Interfaces\Factory\EventFactoryInterface;

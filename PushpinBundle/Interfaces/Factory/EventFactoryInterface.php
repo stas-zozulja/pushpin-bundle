@@ -2,6 +2,7 @@
 
 namespace Gamma\Pushpin\PushpinBundle\Interfaces\Factory;
 
+use Gamma\Pushpin\PushpinBundle\Events\Base\AbstractEvent;
 use GripControl\WebSocketEvent;
 
 interface EventFactoryInterface
@@ -15,7 +16,7 @@ interface EventFactoryInterface
      * @param WebSocketEvent $webSocketEvent
      * @param null           $format
      *
-     * @return mixed
+     * @return AbstractEvent
      */
     public function getEvent(WebSocketEvent $webSocketEvent, $format = null);
 }

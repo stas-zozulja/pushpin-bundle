@@ -4,10 +4,10 @@ namespace Gamma\Pushpin\PushpinBundle\Services\Events\Json;
 
 use Gamma\Pushpin\PushpinBundle\Events\Base\AbstractJsonEvent;
 use Gamma\Pushpin\PushpinBundle\Interfaces\Events\TextEventInterface;
-use Gamma\Pushpin\PushpinBundle\Interfaces\Factory\EventFactoryInterface;
+use Gamma\Pushpin\PushpinBundle\Services\Factories\AbstractEventFactory;
 use GripControl\WebSocketEvent;
 
-class EventFactory implements EventFactoryInterface
+class EventFactory extends AbstractEventFactory
 {
     /**
      * @var string
@@ -52,6 +52,8 @@ class EventFactory implements EventFactoryInterface
      */
     public function getEvent(WebSocketEvent $event, $format = null)
     {
+        $this->ensureCanBeCreated($event);
+
         return $this->resolveJsonEvent($event);
     }
 
@@ -63,6 +65,22 @@ class EventFactory implements EventFactoryInterface
     {
         $this->parser = $parser;
         $this->serializer = $serializer;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    protected function ensureCanBeCreated(WebSocketEvent $event)
+    {
+        if (TextEventInterface::EVENT_TYPE !== $event->type) {
+            throw new \RuntimeException(
+                sprintf(
+                    'Cannot parse event with type "%s". Expected type is "%s"',
+                    $event->type,
+                    TextEventInterface::EVENT_TYPE
+                )
+            );
+        }
     }
 
     /**
@@ -92,16 +110,6 @@ class EventFactory implements EventFactoryInterface
      */
     private function resolveJsonEvent(WebSocketEvent $webSocketEvent)
     {
-        if (TextEventInterface::EVENT_TYPE !== $webSocketEvent->type) {
-            throw new \RuntimeException(
-                sprintf(
-                    'Cannot parse event with type "%s". Expected type is "%s"',
-                    $webSocketEvent->type,
-                    TextEventInterface::EVENT_TYPE
-                )
-            );
-        }
-
         $eventName = $this->parser->getEventName($webSocketEvent);
         $className = sprintf(
             '%s\%s',
@@ -109,17 +117,17 @@ class EventFactory implements EventFactoryInterface
             $this->getClassByEventName($eventName)
         );
 
-        if (class_exists($className)) {
-            $event = new $className(
-                $webSocketEvent->type,
-                $webSocketEvent->content
-            );
-
-            $deSerialized = $this->serializer->deserialize($event);
-
-            return $deSerialized;
+        if (false === class_exists($className)) {
+            throw new \RuntimeException(sprintf('Class "%s" not exists', $className));
         }
 
-        throw new \RuntimeException(sprintf('Class "%s" not exists', $className));
+        $event = new $className(
+            $webSocketEvent->type,
+            $webSocketEvent->content
+        );
+
+        $deSerialized = $this->serializer->deserialize($event);
+
+        return $deSerialized;
     }
 }

@@ -54,7 +54,7 @@ class TextEventFactory implements EventFactoryInterface
             throw new \RuntimeException('Format cannot be null');
         }
 
-        if ($webSocketEvent->type !== TextEventInterface::EVENT_TYPE) {
+        if (TextEventInterface::EVENT_TYPE !== $webSocketEvent->type) {
             throw new UnsupportedEventTypeException($this, $webSocketEvent);
         }
 
