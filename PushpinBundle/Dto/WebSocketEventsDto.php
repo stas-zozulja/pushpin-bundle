@@ -1,8 +1,8 @@
 <?php
 
-namespace Gamma\Pushpin\PushpinBundle\DTO;
+namespace Gamma\Pushpin\PushpinBundle\Dto;
 
-class WebSocketEventsDTO
+class WebSocketEventsDto
 {
     /**
      * @var

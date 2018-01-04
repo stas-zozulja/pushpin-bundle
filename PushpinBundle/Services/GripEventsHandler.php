@@ -2,7 +2,7 @@
 
 namespace Gamma\Pushpin\PushpinBundle\Services;
 
-use Gamma\Pushpin\PushpinBundle\DTO\WebSocketEventsDTO;
+use Gamma\Pushpin\PushpinBundle\Dto\WebSocketEventsDto;
 use Gamma\Pushpin\PushpinBundle\Events\Base\AbstractEvent;
 use Gamma\Pushpin\PushpinBundle\Events\Base\AbstractSubTypedEvent;
 use Gamma\Pushpin\PushpinBundle\Handlers\Base\AbstractEventHandler;
@@ -20,6 +20,11 @@ class GripEventsHandler
      */
     private $logger;
 
+    /**
+     * GripEventsHandler constructor.
+     *
+     * @param LoggerInterface $logger
+     */
     public function __construct(LoggerInterface $logger)
     {
         $this->logger = $logger;
@@ -33,7 +38,9 @@ class GripEventsHandler
     {
         $this->logger->info(sprintf(
             '%s: handler:%s, subtype:%s',
-            __FUNCTION__, get_class($handler), $subType
+            __FUNCTION__,
+            get_class($handler),
+            $subType
         ));
 
         if ($subType) {
@@ -56,23 +63,25 @@ class GripEventsHandler
     }
 
     /**
-     * @param WebSocketEventsDTO $events
+     * @param WebSocketEventsDto $events
      *
-     * @return WebSocketEventsDTO
+     * @return WebSocketEventsDto
      */
-    public function handleEvents(WebSocketEventsDTO $events)
+    public function handleEvents(WebSocketEventsDto $events)
     {
-        $result = new WebSocketEventsDTO();
+        $result = new WebSocketEventsDto();
 
-        array_walk($events->webSocketEvents, function(AbstractEvent $event) use ($result) {
+        array_walk($events->webSocketEvents, function (AbstractEvent $event) use ($result) {
             $handled = $this->handle($event);
 
             if (is_array($handled)) {
                 $result->webSocketEvents = array_merge($result->webSocketEvents, $handled);
             }
-            if ($handled instanceof  WebSocketEventsDTO) {
+
+            if ($handled instanceof  WebSocketEventsDto) {
                 $result->webSocketEvents = array_merge($result->webSocketEvents, $handled->webSocketEvents);
             }
+
             if ($handled instanceof AbstractEvent) {
                 $result->webSocketEvents[] = $handled;
             }
@@ -91,7 +100,9 @@ class GripEventsHandler
         if ($event->hasSubTypes() && $event instanceof AbstractSubTypedEvent) {
             $this->logger->info(sprintf(
                 '%s: event:%s, subtype:%s',
-                __FUNCTION__, get_class($event), $event->getName()
+                __FUNCTION__,
+                get_class($event),
+                $event->getName()
             ));
 
             return $this->handlers[$event->getType()][$event->getSubType()];

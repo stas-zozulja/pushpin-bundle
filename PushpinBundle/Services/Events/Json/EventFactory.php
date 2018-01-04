@@ -9,8 +9,14 @@ use GripControl\WebSocketEvent;
 
 class EventFactory implements EventFactoryInterface
 {
+    /**
+     * @var string
+     */
     private $baseNamespace = '';
 
+    /**
+     * @var array
+     */
     private $events = [];
 
     /**
@@ -63,6 +69,8 @@ class EventFactory implements EventFactoryInterface
      * @param $eventName
      *
      * @throws \RuntimeException
+     *
+     * @return string
      */
     private function getClassByEventName($eventName)
     {
@@ -84,7 +92,7 @@ class EventFactory implements EventFactoryInterface
      */
     private function resolveJsonEvent(WebSocketEvent $webSocketEvent)
     {
-        if ($webSocketEvent->type !== TextEventInterface::EVENT_TYPE) {
+        if (TextEventInterface::EVENT_TYPE !== $webSocketEvent->type) {
             throw new \RuntimeException(
                 sprintf(
                     'Cannot parse event with type "%s". Expected type is "%s"',
@@ -95,7 +103,9 @@ class EventFactory implements EventFactoryInterface
         }
 
         $eventName = $this->parser->getEventName($webSocketEvent);
-        $className = sprintf('%s\%s', $this->baseNamespace,
+        $className = sprintf(
+            '%s\%s',
+            $this->baseNamespace,
             $this->getClassByEventName($eventName)
         );
 

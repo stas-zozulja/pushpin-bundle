@@ -6,8 +6,9 @@ use Gamma\Pushpin\PushpinBundle\Services\Events\Json\EventFactory;
 use Gamma\Pushpin\PushpinBundle\Services\Events\Json\EventParser;
 use Gamma\Pushpin\PushpinBundle\Services\Events\Json\EventSerializer;
 use GripControl\WebSocketEvent;
+use PHPUnit\Framework\TestCase;
 
-class JsonEventFactoryTest extends \PHPUnit_Framework_TestCase
+class JsonEventFactoryTest extends TestCase
 {
     /**
      * @var EventFactory

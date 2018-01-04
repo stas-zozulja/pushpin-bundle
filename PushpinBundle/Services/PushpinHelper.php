@@ -19,7 +19,8 @@ class PushpinHelper
     public function setPushpinControlURI($pushpinURI)
     {
         $this->setGripPubControl(
-                new GripPubControl(GripControl::parse_grip_uri($pushpinURI)
+                new GripPubControl(
+                    GripControl::parse_grip_uri($pushpinURI)
             )
         );
     }
@@ -50,8 +51,11 @@ class PushpinHelper
      */
     public function subscribeToChannel(WebSocketChannelInterface $channel)
     {
-        $webSocketEvent = new WebSocketEvent('TEXT', 'c:'.
-            GripControl::websocket_control_message('subscribe',
+        $webSocketEvent = new WebSocketEvent(
+            'TEXT',
+            'c:'.
+            GripControl::websocket_control_message(
+                'subscribe',
                 ['channel' => $channel->getChannelName()]
             )
         );
@@ -66,8 +70,11 @@ class PushpinHelper
      */
     public function unSubscribeFromChannel(WebSocketChannelInterface $channel)
     {
-        $webSocketEvent = new WebSocketEvent('TEXT', 'c:'.
-            GripControl::websocket_control_message('unsubscribe',
+        $webSocketEvent = new WebSocketEvent(
+            'TEXT',
+            'c:'.
+            GripControl::websocket_control_message(
+                'unsubscribe',
                 ['channel' => $channel->getChannelName()]
             )
         );
@@ -80,7 +87,9 @@ class PushpinHelper
      */
     public function detachConnection()
     {
-        $webSocketEvent = new WebSocketEvent('TEXT', 'c:'.
+        $webSocketEvent = new WebSocketEvent(
+            'TEXT',
+            'c:'.
             GripControl::websocket_control_message('detach')
         );
 

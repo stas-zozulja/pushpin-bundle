@@ -3,8 +3,9 @@
 namespace Gamma\Pushpin\PushpinBundle\Tests\Messages;
 
 use Gamma\Pushpin\PushpinBundle\Messages\GammaWebSocketMessage;
+use PHPUnit\Framework\TestCase;
 
-class GammaWebSocketMessageTest extends \PHPUnit_Framework_TestCase
+class GammaWebSocketMessageTest extends TestCase
 {
     /**
      * @covers \Gamma\Pushpin\PushpinBundle\Messages\GammaWebSocketMessage::export

@@ -4,8 +4,9 @@ namespace Gamma\Pushpin\PushpinBundle\Tests\Services\Factories;
 
 use Gamma\Pushpin\PushpinBundle\Services\Factories\CloseEventFactory;
 use GripControl\WebSocketEvent;
+use PHPUnit\Framework\TestCase;
 
-class CloseEventFactoryTest extends \PHPUnit_Framework_TestCase
+class CloseEventFactoryTest extends TestCase
 {
     /**
      * @var CloseEventFactory
@@ -29,19 +30,23 @@ class CloseEventFactoryTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * @expectedException \Gamma\Pushpin\PushpinBundle\Exceptions\Factory\UnsupportedEventTypeException
      * @covers \Gamma\Pushpin\PushpinBundle\Services\Factories\CloseEventFactory::getEvent()
      * @dataProvider getWrongTypeData
+     *
+     * @param $type
      */
     public function testGetEventWrongType($type)
     {
+        $this->setExpectedExceptionFromAnnotation();
         $event = new WebSocketEvent($type);
-        static::setExpectedException(
-            'Gamma\Pushpin\PushpinBundle\Exceptions\Factory\UnsupportedEventTypeException'
-        );
 
         self::$instance->getEvent($event);
     }
 
+    /**
+     * @return array
+     */
     public function getWrongTypeData()
     {
         return [
@@ -58,8 +63,9 @@ class CloseEventFactoryTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetFormat()
     {
-        static::assertEquals('CLOSE',
-            self::$instance->getFormat());
+        static::assertEquals(
+            'CLOSE',
+            self::$instance->getFormat()
+        );
     }
-
 }

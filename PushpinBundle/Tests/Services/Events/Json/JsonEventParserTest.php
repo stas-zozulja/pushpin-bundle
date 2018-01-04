@@ -4,8 +4,9 @@ namespace Gamma\Pushpin\PushpinBundle\Tests\Services\Events;
 
 use Gamma\Pushpin\PushpinBundle\Services\Events\Json\EventParser;
 use GripControl\WebSocketEvent;
+use PHPUnit\Framework\TestCase;
 
-class JsonEventParserTest extends \PHPUnit_Framework_TestCase
+class JsonEventParserTest extends TestCase
 {
     /**
      * @var EventParser

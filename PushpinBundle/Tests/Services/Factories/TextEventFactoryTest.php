@@ -7,8 +7,9 @@ use Gamma\Pushpin\PushpinBundle\Services\Events\Json\EventParser;
 use Gamma\Pushpin\PushpinBundle\Services\Events\Json\EventSerializer;
 use Gamma\Pushpin\PushpinBundle\Services\Factories\TextEventFactory;
 use GripControl\WebSocketEvent;
+use PHPUnit\Framework\TestCase;
 
-class TextEventFactoryTest extends \PHPUnit_Framework_TestCase
+class TextEventFactoryTest extends TestCase
 {
     /**
      * @var TextEventFactory
@@ -64,6 +65,7 @@ class TextEventFactoryTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * @expectedException \Gamma\Pushpin\PushpinBundle\Exceptions\Factory\UnsupportedEventTypeException
      * @covers \Gamma\Pushpin\PushpinBundle\Services\Factories\TextEventFactory::getEvent()
      * @dataProvider getWrongTypeData
      */
@@ -81,10 +83,7 @@ class TextEventFactoryTest extends \PHPUnit_Framework_TestCase
                 }
             }'
         );
-        static::setExpectedException(
-            'Gamma\Pushpin\PushpinBundle\Exceptions\Factory\UnsupportedEventTypeException'
-        );
-
+        static::setExpectedExceptionFromAnnotation();
         self::$instance->getEvent($event, 'json');
     }
 
@@ -101,8 +100,11 @@ class TextEventFactoryTest extends \PHPUnit_Framework_TestCase
 
 
     /**
+     * @expectedException \Gamma\Pushpin\PushpinBundle\Exceptions\WrongJsonEventException
      * @covers \Gamma\Pushpin\PushpinBundle\Services\Factories\TextEventFactory::getEvent()
      * @dataProvider getWrongContentData
+     *
+     * @param $content
      */
     public function testGetEventWrongContent($content)
     {
@@ -110,9 +112,7 @@ class TextEventFactoryTest extends \PHPUnit_Framework_TestCase
             'TEXT',
             $content
         );
-        static::setExpectedException(
-            'Gamma\Pushpin\PushpinBundle\Exceptions\WrongJsonEventException'
-        );
+        static::setExpectedExceptionFromAnnotation();
 
         self::$instance->getEvent($event, 'json');
     }

@@ -39,6 +39,16 @@ services:
         tags:
             - { name: gamma.pushpin.grip_event_factory }
 
+    gamma.pushpin.response_encoder:
+        class: Gamma\Pushpin\PushpinBundle\Services\ResponseEncoder
+
+    gamma.pushpin.response_listener:
+        class: Gamma\Pushpin\PushpinBundle\Listener\PushpinResponseListener
+        arguments:
+            - "@gamma.pushpin.response_encoder"
+        tags:
+            - { name: "kernel.event_subscriber" }
+
     gamma.pushpin.converter.web_socket_events:
         class: Gamma\Pushpin\PushpinBundle\Request\ParamConverter\WebSocketEventsConverter
         arguments:

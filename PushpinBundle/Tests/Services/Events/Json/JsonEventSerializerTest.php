@@ -4,8 +4,9 @@ namespace Gamma\Pushpin\PushpinBundle\Tests\Services\Events;
 
 use Gamma\Pushpin\PushpinBundle\Services\Events\Json\EventSerializer;
 use Gamma\Pushpin\PushpinBundle\Tests\Utils\Events\SimpleJsonEvent;
+use PHPUnit\Framework\TestCase;
 
-class JsonEventSerializerTest extends \PHPUnit_Framework_TestCase
+class JsonEventSerializerTest extends TestCase
 {
     /**
      * @var EventSerializer

@@ -2,7 +2,7 @@
 
 namespace Gamma\Pushpin\PushpinBundle\Request\ParamConverter;
 
-use Gamma\Pushpin\PushpinBundle\DTO\WebSocketEventsDTO;
+use Gamma\Pushpin\PushpinBundle\Dto\WebSocketEventsDto;
 use Gamma\Pushpin\PushpinBundle\Interfaces\Events\TextEventInterface;
 use Gamma\Pushpin\PushpinBundle\Interfaces\Factory\EventFactoryInterface;
 use GripControl\GripControl;
@@ -39,7 +39,7 @@ class WebSocketEventsConverter implements ParamConverterInterface
     public function apply(Request $request, ParamConverter $configuration)
     {
         $events = GripControl::decode_websocket_events($request->getContent());
-        $dto = new WebSocketEventsDTO();
+        $dto = new WebSocketEventsDto();
 
         $dto->webSocketEvents = $events;
         $dto->connectionId = $request->headers->get('connection-id');
@@ -48,7 +48,7 @@ class WebSocketEventsConverter implements ParamConverterInterface
 
         $request->attributes->set(
             $configuration->getName(),
-            $dto = $this->resolveEvents($dto, $format)
+            $this->resolveEvents($dto, $format)
         );
     }
 
@@ -60,23 +60,23 @@ class WebSocketEventsConverter implements ParamConverterInterface
         $supports =
             array_key_exists('format', $configuration->getOptions()) &&
             in_array($configuration->getOptions()['format'], $this->supportedTextFormats) &&
-            $configuration->getClass() === 'Gamma\Pushpin\PushpinBundle\DTO\WebSocketEventsDTO'
+            WebSocketEventsDto::class === $configuration->getClass()
         ;
 
         return $supports;
     }
 
     /**
-     * @param WebSocketEventsDTO $dto
+     * @param WebSocketEventsDto $dto
      * @param $format
      *
-     * @return WebSocketEventsDTO
+     * @return WebSocketEventsDto
      */
-    private function resolveEvents(WebSocketEventsDTO $dto, $format)
+    private function resolveEvents(WebSocketEventsDto $dto, $format)
     {
         /** @var $event WebSocketEvent */
         foreach ($dto->webSocketEvents as $key => $event) {
-            if ($event->type ===  TextEventInterface::EVENT_TYPE) {
+            if (TextEventInterface::EVENT_TYPE === $event->type) {
                 $dto->webSocketEvents[$key] = $this->factory->getEvent($event, $format);
             } else {
                 $dto->webSocketEvents[$key] = $this->factory->getEvent($event);

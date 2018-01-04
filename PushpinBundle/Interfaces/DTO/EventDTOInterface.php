@@ -1,6 +1,6 @@
 <?php
 
-namespace Gamma\Pushpin\PushpinBundle\DTO;
+namespace Gamma\Pushpin\PushpinBundle\Dto;
 
 interface EventDTOInterface
 {

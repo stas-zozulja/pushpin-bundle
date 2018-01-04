@@ -4,8 +4,9 @@ namespace Gamma\Pushpin\PushpinBundle\Tests\Services\Factories;
 
 use Gamma\Pushpin\PushpinBundle\Services\Factories\OpenEventFactory;
 use GripControl\WebSocketEvent;
+use PHPUnit\Framework\TestCase;
 
-class OpenEventFactoryTest extends \PHPUnit_Framework_TestCase
+class OpenEventFactoryTest extends TestCase
 {
     /**
      * @var OpenEventFactory
@@ -29,16 +30,16 @@ class OpenEventFactoryTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * @expectedException \Gamma\Pushpin\PushpinBundle\Exceptions\Factory\UnsupportedEventTypeException
      * @covers \Gamma\Pushpin\PushpinBundle\Services\Factories\OpenEventFactory::getEvent()
      * @dataProvider getWrongTypeData
+     *
+     * @param $type
      */
     public function testGetEventWrongType($type)
     {
         $event = new WebSocketEvent($type);
-        static::setExpectedException(
-            'Gamma\Pushpin\PushpinBundle\Exceptions\Factory\UnsupportedEventTypeException'
-        );
-
+        static::setExpectedExceptionFromAnnotation();
         self::$instance->getEvent($event);
     }
 
@@ -58,8 +59,9 @@ class OpenEventFactoryTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetFormat()
     {
-        static::assertEquals('OPEN',
-            self::$instance->getFormat());
+        static::assertEquals(
+            'OPEN',
+            self::$instance->getFormat()
+        );
     }
-
 }
