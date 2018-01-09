@@ -12,6 +12,13 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\ConfigurationAnnotation;
 class PushpinResponse extends ConfigurationAnnotation
 {
     /**
+     * The format of Response. "http-stream" and "ws-message" are supported.
+     *
+     * @var string
+     */
+    protected $format;
+
+    /**
      * {@inheritdoc}
      */
     public function getAliasName()
@@ -25,5 +32,21 @@ class PushpinResponse extends ConfigurationAnnotation
     public function allowArray()
     {
         return false;
+    }
+
+    /**
+     * @return string
+     */
+    public function getFormat(): string
+    {
+        return $this->format;
+    }
+
+    /**
+     * @param string $format
+     */
+    public function setFormat(string $format): void
+    {
+        $this->format = $format;
     }
 }

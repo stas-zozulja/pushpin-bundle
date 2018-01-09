@@ -68,7 +68,7 @@ class WebSocketEventsConverter implements ParamConverterInterface
 
     /**
      * @param WebSocketEventsDto $dto
-     * @param $format
+     * @param string             $format
      *
      * @return WebSocketEventsDto
      */
@@ -78,9 +78,9 @@ class WebSocketEventsConverter implements ParamConverterInterface
         foreach ($dto->webSocketEvents as $key => $event) {
             if (TextEventInterface::EVENT_TYPE === $event->type) {
                 $dto->webSocketEvents[$key] = $this->factory->getEvent($event, $format);
-            } else {
-                $dto->webSocketEvents[$key] = $this->factory->getEvent($event);
+                continue;
             }
+            $dto->webSocketEvents[$key] = $this->factory->getEvent($event);
         }
 
         return $dto;

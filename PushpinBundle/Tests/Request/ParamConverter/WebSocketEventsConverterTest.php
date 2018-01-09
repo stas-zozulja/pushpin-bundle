@@ -128,8 +128,10 @@ class WebSocketEventsConverterTest extends TestCase
         $eventFactory = $prophecy->reveal();
 
         $subject = new WebSocketEventsConverter($eventFactory);
+        $request = $this->request($requestContent, ['connection-id' => self::CONNECTION_ID]);
+
         $subject->apply(
-            $request = $this->request($requestContent, ['connection-id' => self::CONNECTION_ID]),
+            $request,
             $this->paramConverter(WebSocketEventsDto::class, self::FORMAT_JSON)
         );
 

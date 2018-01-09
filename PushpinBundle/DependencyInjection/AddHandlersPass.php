@@ -10,7 +10,7 @@ class AddHandlersPass implements CompilerPassInterface
 {
     public function process(ContainerBuilder $container)
     {
-        if (!$container->has('gamma.pushpin.grip.events_handler')) {
+        if (false === $container->has('gamma.pushpin.grip.events_handler')) {
             return;
         }
 

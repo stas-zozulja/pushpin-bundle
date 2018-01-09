@@ -2,10 +2,6 @@
 
 namespace Gamma\Pushpin\PushpinBundle\Interfaces;
 
-interface WebSocketChannelInterface
+interface WebSocketChannelInterface extends PushpinChannelInterface
 {
-    /**
-     * @return string
-     */
-    public function getChannelName();
 }

@@ -10,7 +10,7 @@ class AddFactoriesPass implements CompilerPassInterface
 {
     public function process(ContainerBuilder $container)
     {
-        if (!$container->has('gamma.pushpin.grip.events_factory')) {
+        if (false === $container->has('gamma.pushpin.grip.events_factory')) {
             return;
         }
 
@@ -21,6 +21,7 @@ class AddFactoriesPass implements CompilerPassInterface
         $taggedServices = $container->findTaggedServiceIds(
             'gamma.pushpin.grip_event_factory'
         );
+
         foreach ($taggedServices as $id => $tags) {
             $definition->addMethodCall(
                 'addFactory',

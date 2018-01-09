@@ -28,17 +28,20 @@ class PushpinHelper
     /**
      * @param $gripPubControl
      */
-    public function setGripPubControl($gripPubControl)
+    public function setGripPubControl(GripPubControl $gripPubControl)
     {
         $this->gripPubControl = $gripPubControl;
     }
 
     /**
+     * @deprecated Use MessagePublisher::publishWebSocketMessage() call instead
+     *
      * @param $channel
      * @param $message
      */
     public function sendWsMessageToChannel(WebSocketChannelInterface $channel, $message)
     {
+        @trigger_error(__METHOD__.'() is deprecated. Use MessagePublisher::publishWebSocketMessage() call instead', E_USER_DEPRECATED);
         $wsMessage = new GammaWebSocketMessage($message);
 
         $this->gripPubControl->publish($channel->getChannelName(), $wsMessage);

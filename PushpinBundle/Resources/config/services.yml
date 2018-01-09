@@ -7,6 +7,11 @@ services:
         calls:
             - [setPushpinControlURI, ["%gamma.pushpin.control_uri%"]]
 
+    gamma.pushpin.message_publisher:
+        class: Gamma\Pushpin\PushpinBundle\Services\MessagePublisher
+        calls:
+            - [setPushpinControlUri, ["%gamma.pushpin.control_uri%"]]
+
     gamma.pushpin.grip.events_factory:
         class: Gamma\Pushpin\PushpinBundle\Services\GripEventsFactory
         arguments:
@@ -39,13 +44,17 @@ services:
         tags:
             - { name: gamma.pushpin.grip_event_factory }
 
-    gamma.pushpin.response_encoder:
-        class: Gamma\Pushpin\PushpinBundle\Services\ResponseEncoder
+    gamma.pushpin.websocket_over_http_response_encoder:
+        class: Gamma\Pushpin\PushpinBundle\Response\Encoder\WebSocketOverHttpEncoder
+
+    gamma.pushpin.http_stream_response_encoder:
+        class: Gamma\Pushpin\PushpinBundle\Response\Encoder\HttpStreamEncoder
 
     gamma.pushpin.response_listener:
         class: Gamma\Pushpin\PushpinBundle\Listener\PushpinResponseListener
-        arguments:
-            - "@gamma.pushpin.response_encoder"
+        calls:
+            - [addEncoder, ["@gamma.pushpin.websocket_over_http_response_encoder"]]
+            - [addEncoder, ["@gamma.pushpin.http_stream_response_encoder"]]
         tags:
             - { name: "kernel.event_subscriber" }
 

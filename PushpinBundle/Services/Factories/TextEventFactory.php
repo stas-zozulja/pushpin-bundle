@@ -46,7 +46,7 @@ class TextEventFactory extends AbstractEventFactory
      */
     protected function ensureCanBeCreated(WebSocketEvent $event, $format = null)
     {
-        if (is_null($format)) {
+        if (null === $format) {
             throw new \RuntimeException('Format cannot be null');
         }
 

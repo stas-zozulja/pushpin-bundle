@@ -2,9 +2,10 @@
 
 namespace Gamma\Pushpin\PushpinBundle\Listener;
 
+use Gamma\Pushpin\PushpinBundle\Dto\HttpStreamDto;
 use Gamma\Pushpin\PushpinBundle\Dto\WebSocketEventsDto;
 use Gamma\Pushpin\PushpinBundle\Configuration\PushpinResponse;
-use Gamma\Pushpin\PushpinBundle\Services\ResponseEncoder;
+use Gamma\Pushpin\PushpinBundle\Response\Encoder\ResponseEncoderInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpKernel\Event\GetResponseForControllerResultEvent;
 use Symfony\Component\HttpKernel\KernelEvents;
@@ -12,18 +13,34 @@ use Symfony\Component\HttpKernel\KernelEvents;
 class PushpinResponseListener implements EventSubscriberInterface
 {
     /**
-     * @var ResponseEncoder
+     * @var array|ResponseEncoderInterface[]
      */
-    private $eventsEncoder;
+    private $encoders;
 
     /**
-     * PushpinResponseListener constructor.
-     *
-     * @param ResponseEncoder $eventsEncoder
+     * @param ResponseEncoderInterface $encoder
      */
-    public function __construct(ResponseEncoder $eventsEncoder)
+    public function addEncoder(ResponseEncoderInterface $encoder)
     {
-        $this->eventsEncoder = $eventsEncoder;
+        $this->encoders[$encoder->format()] = $encoder;
+    }
+
+    /**
+     * @param string $format
+     *
+     * @return ResponseEncoderInterface
+     */
+    private function getEncoder(string $format)
+    {
+        $encoder = $this->encoders[$format] ?? null;
+
+        if (null === $encoder) {
+            throw new \RuntimeException(
+                sprintf('Unknown response encoder for format "%s"', $format)
+            );
+        }
+
+        return $encoder;
     }
 
     /**
@@ -37,11 +54,9 @@ class PushpinResponseListener implements EventSubscriberInterface
             return;
         }
 
-        /** @var WebSocketEventsDto $dto */
+        /** @var WebSocketEventsDto|HttpStreamDto $dto */
         $dto = $event->getControllerResult();
-        $response = $this->eventsEncoder->encodeToResponse(
-            $dto
-        );
+        $response = $this->getEncoder($pushpinResponse->getFormat())->encode($dto);
 
         $event->setResponse($response);
     }

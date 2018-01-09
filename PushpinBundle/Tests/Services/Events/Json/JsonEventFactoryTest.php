@@ -6,26 +6,23 @@ use Gamma\Pushpin\PushpinBundle\Services\Events\Json\EventFactory;
 use Gamma\Pushpin\PushpinBundle\Services\Events\Json\EventParser;
 use Gamma\Pushpin\PushpinBundle\Services\Events\Json\EventSerializer;
 use GripControl\WebSocketEvent;
-use PHPUnit\Framework\TestCase;
+use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
-class JsonEventFactoryTest extends TestCase
+class JsonEventFactoryTest extends KernelTestCase
 {
     /**
      * @var EventFactory
      */
-    private static $instance;
-
-    public static function setUpBeforeClass()
-    {
-        self::$instance = new EventFactory(
-            new EventParser(),
-            new EventSerializer()
-        );
-    }
+    private $instance;
 
     public function setUp()
     {
-        self::$instance->configure(
+        $this->instance = new EventFactory(
+            new EventParser(),
+            new EventSerializer()
+        );
+
+        $this->instance->configure(
             'Gamma\Pushpin\PushpinBundle\Tests\Utils\Events',
                 ['testAction' => ['class' => 'SimpleJsonEvent']]
             );
@@ -48,7 +45,7 @@ class JsonEventFactoryTest extends TestCase
                 }
             }'
         );
-        $jsonEvent = self::$instance->getEvent($event);
+        $jsonEvent = $this->instance->getEvent($event);
 
         static::assertInstanceOf('Gamma\Pushpin\PushpinBundle\Tests\Utils\Events\SimpleJsonEvent', $jsonEvent);
         static::assertEquals('testAction', $jsonEvent->getName());

@@ -2,21 +2,21 @@
 
 namespace Gamma\Pushpin\PushpinBundle\Tests\Messages;
 
-use Gamma\Pushpin\PushpinBundle\Messages\GammaWebSocketMessage;
+use Gamma\Pushpin\PushpinBundle\Messages\GammaHttpStreamMessage;
 use PHPUnit\Framework\TestCase;
 
-class GammaWebSocketMessageTest extends TestCase
+class GammaHttpStreamMessageTest extends TestCase
 {
     /**
-     * @covers \Gamma\Pushpin\PushpinBundle\Messages\GammaWebSocketMessage::export
+     * @covers \Gamma\Pushpin\PushpinBundle\Messages\GammaHttpStreamMessageTest::export
      */
     public function testCreate()
     {
-        $message = new GammaWebSocketMessage('test content');
+        $message = new GammaHttpStreamMessage('test content');
 
         static::assertSame(
             ['formats' => [
-                    'ws-message' => [
+                    'http-stream' => [
                         'content' => 'test content',
                     ],
                 ],

@@ -2,11 +2,11 @@
 
 namespace Gamma\Pushpin\PushpinBundle\Messages;
 
-use GripControl\WebSocketMessageFormat;
+use GripControl\HttpStreamFormat;
 
-class GammaWebSocketMessage extends WebSocketMessageFormat
+class GammaHttpStreamMessage extends HttpStreamFormat
 {
-    const FORMAT = 'ws-message';
+    const FORMAT = 'http-stream';
 
     /**
      * @return array

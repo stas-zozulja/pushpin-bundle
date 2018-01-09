@@ -5,6 +5,7 @@ namespace Gamma\Pushpin\PushpinBundle\Tests\Services;
 use Gamma\Pushpin\PushpinBundle\Interfaces\WebSocketChannelInterface;
 use Gamma\Pushpin\PushpinBundle\Services\PushpinHelper;
 use Gamma\Pushpin\PushpinBundle\Tests\Utils\SimpleChannel;
+use GripControl\WebSocketEvent;
 use PHPUnit\Framework\TestCase;
 
 class PushpinHelperTest extends TestCase

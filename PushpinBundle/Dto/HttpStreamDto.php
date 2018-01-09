@@ -2,7 +2,7 @@
 
 namespace Gamma\Pushpin\PushpinBundle\Dto;
 
-class WebSocketEventsDto
+class HttpStreamDto
 {
     /**
      * @var string
@@ -10,7 +10,7 @@ class WebSocketEventsDto
     public $connectionId;
 
     /**
-     * @var array
+     * @var string
      */
-    public $webSocketEvents = [];
+    public $channelName;
 }
