@@ -1,0 +1,7 @@
+services:
+    gamma.pushpin.publish_command:
+        class: Gamma\Pushpin\PushpinBundle\Command\PublishCommand
+        arguments:
+            - "@gamma.pushpin.message_publisher"
+        tags:
+            - { name: console.command, command: pushpin:publish }

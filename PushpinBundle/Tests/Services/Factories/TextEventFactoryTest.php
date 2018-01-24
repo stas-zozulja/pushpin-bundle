@@ -68,6 +68,8 @@ class TextEventFactoryTest extends TestCase
      * @expectedException \Gamma\Pushpin\PushpinBundle\Exceptions\Factory\UnsupportedEventTypeException
      * @covers \Gamma\Pushpin\PushpinBundle\Services\Factories\TextEventFactory::getEvent()
      * @dataProvider getWrongTypeData
+     *
+     * @param mixed $type
      */
     public function testGetEventWrongType($type)
     {

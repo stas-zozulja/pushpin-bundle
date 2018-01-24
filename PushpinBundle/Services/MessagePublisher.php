@@ -2,14 +2,14 @@
 
 namespace Gamma\Pushpin\PushpinBundle\Services;
 
-use Gamma\Pushpin\PushpinBundle\Interfaces\HttpStreamChannelInterface;
-use Gamma\Pushpin\PushpinBundle\Interfaces\WebSocketChannelInterface;
+use Gamma\Pushpin\PushpinBundle\Interfaces\PushpinChannelInterface;
 use Gamma\Pushpin\PushpinBundle\Messages\GammaHttpStreamMessage;
 use Gamma\Pushpin\PushpinBundle\Messages\GammaWebSocketMessage;
+use Gamma\Pushpin\PushpinBundle\Messages\PublishableInterface;
 use GripControl\GripControl;
 use GripControl\GripPubControl;
 
-class MessagePublisher
+class MessagePublisher implements MessagePublisherInterface
 {
     /** @var GripPubControl */
     private $gripPubControl;
@@ -36,33 +36,41 @@ class MessagePublisher
     }
 
     /**
-     * @param WebSocketChannelInterface $channel
-     * @param string                    $message
+     * {@inheritdoc}
      */
-    public function publishWebSocketMessage(
-        WebSocketChannelInterface $channel,
-        string $message
-    ) {
-        $wsMessage = new GammaWebSocketMessage($message);
-
-        $this->gripPubControl->publish($channel->getChannelName(), $wsMessage);
+    public function publish(string $channelName, PublishableInterface $message)
+    {
+        $this->gripPubControl->publish($channelName, $message);
     }
 
     /**
-     * @param HttpStreamChannelInterface $channel
-     * @param string                     $message
-     * @param bool                       $closeConnection
+     * @param PushpinChannelInterface $channel
+     * @param string                  $message
+     */
+    public function publishWebSocketMessage(
+        PushpinChannelInterface $channel,
+        string $message
+    ) {
+        $wsMessage = GammaWebSocketMessage::build($message);
+
+        $this->publish($channel->getChannelName(), $wsMessage);
+    }
+
+    /**
+     * @param PushpinChannelInterface $channel
+     * @param string                  $message
+     * @param bool                    $closeConnection
      */
     public function publishHttpStreamMessage(
-        HttpStreamChannelInterface $channel,
+        PushpinChannelInterface $channel,
         string $message,
         bool $closeConnection = false
     ) {
-        $httpMessage = new GammaHttpStreamMessage(
+        $httpMessage = GammaHttpStreamMessage::build(
             $message,
             $closeConnection
         );
 
-        $this->gripPubControl->publish($channel->getChannelName(), $httpMessage);
+        $this->publish($channel->getChannelName(), $httpMessage);
     }
 }

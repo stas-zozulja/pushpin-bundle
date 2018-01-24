@@ -118,7 +118,7 @@ class WebSocketEventsConverterTest extends TestCase
         $prophecy->getEvent(
                 Argument::type(WebSocketEvent::class),
                 Argument::that(function ($argument) {
-                    return is_null($argument) || self::FORMAT_JSON === $argument;
+                    return null === $argument || self::FORMAT_JSON === $argument;
                 })
             )
             ->shouldBeCalledTimes($eventsCount)

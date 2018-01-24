@@ -2,9 +2,9 @@
 
 namespace Gamma\Pushpin\PushpinBundle\Listener;
 
+use Gamma\Pushpin\PushpinBundle\Configuration\PushpinResponse;
 use Gamma\Pushpin\PushpinBundle\Dto\HttpStreamDto;
 use Gamma\Pushpin\PushpinBundle\Dto\WebSocketEventsDto;
-use Gamma\Pushpin\PushpinBundle\Configuration\PushpinResponse;
 use Gamma\Pushpin\PushpinBundle\Response\Encoder\ResponseEncoderInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpKernel\Event\GetResponseForControllerResultEvent;

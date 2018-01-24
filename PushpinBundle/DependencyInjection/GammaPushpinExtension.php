@@ -2,10 +2,10 @@
 
 namespace Gamma\Pushpin\PushpinBundle\DependencyInjection;
 
-use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\Config\FileLocator;
-use Symfony\Component\HttpKernel\DependencyInjection\Extension;
+use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Loader;
+use Symfony\Component\HttpKernel\DependencyInjection\Extension;
 
 class GammaPushpinExtension extends Extension
 {
@@ -23,6 +23,7 @@ class GammaPushpinExtension extends Extension
         $loader->load('services.yml');
         $loader->load('handlers.yml');
         $loader->load('json.yml');
+        $loader->load('console.yml');
 
         $this->configJsonEventFactory($config, $container);
     }

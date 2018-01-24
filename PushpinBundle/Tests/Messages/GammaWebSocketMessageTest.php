@@ -12,11 +12,12 @@ class GammaWebSocketMessageTest extends TestCase
      */
     public function testCreate()
     {
-        $message = new GammaWebSocketMessage('test content');
+        $message = GammaWebSocketMessage::build('test content');
 
+        static::assertInstanceOf(GammaWebSocketMessage::class, $message);
         static::assertSame(
             ['formats' => [
-                    'ws-message' => [
+                'ws-message' => [
                         'content' => 'test content',
                     ],
                 ],

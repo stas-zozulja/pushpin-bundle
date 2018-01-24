@@ -40,6 +40,7 @@ class HttpStreamEncoder implements ResponseEncoderInterface
             '',
             $parameters->get(self::KEY_STATUS_CODE),
             [
+                'Access-Control-Allow-Origin' => '*',
                 'Content-Type' => self::CONTENT_TYPE,
                 'Grip-Hold' => 'stream',
                 'Grip-Channel' => $parameters->get(self::KEY_DTO)->channelName,

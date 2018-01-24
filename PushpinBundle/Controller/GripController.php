@@ -2,8 +2,8 @@
 
 namespace Gamma\Pushpin\PushpinBundle\Controller;
 
-use GripControl\GripControl;
 use Gamma\Pushpin\PushpinBundle\Dto\WebSocketEventsDto;
+use GripControl\GripControl;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
 

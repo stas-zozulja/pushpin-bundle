@@ -2,11 +2,11 @@
 
 namespace Gamma\Pushpin\PushpinBundle\Services;
 
+use Gamma\Pushpin\PushpinBundle\Interfaces\WebSocketChannelInterface;
+use Gamma\Pushpin\PushpinBundle\Messages\GammaWebSocketMessage;
 use GripControl\GripControl;
 use GripControl\GripPubControl;
 use GripControl\WebSocketEvent;
-use Gamma\Pushpin\PushpinBundle\Interfaces\WebSocketChannelInterface;
-use Gamma\Pushpin\PushpinBundle\Messages\GammaWebSocketMessage;
 
 class PushpinHelper
 {

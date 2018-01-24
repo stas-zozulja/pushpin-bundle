@@ -1,6 +1,6 @@
 <?php
 
-namespace PushpinBundle\Tests\Response\Encoder;
+namespace Gamma\Pushpin\PushpinBundle\Tests\Response\Encoder;
 
 use Gamma\Pushpin\PushpinBundle\Dto\WebSocketEventsDto;
 use Gamma\Pushpin\PushpinBundle\Response\Encoder\WebSocketOverHttpEncoder;

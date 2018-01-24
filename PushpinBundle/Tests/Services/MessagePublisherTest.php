@@ -1,6 +1,6 @@
 <?php
 
-namespace PushpinBundle\Tests\Services;
+namespace Gamma\Pushpin\PushpinBundle\Tests\Services;
 
 use Gamma\Pushpin\PushpinBundle\Messages\GammaHttpStreamMessage;
 use Gamma\Pushpin\PushpinBundle\Messages\GammaWebSocketMessage;
@@ -86,7 +86,7 @@ class MessagePublisherTest extends TestCase
             Argument::that(function ($message) {
                 return
                     $message instanceof GammaHttpStreamMessage &&
-                    'test-message' === $message->content
+                    'test-message'.PHP_EOL === $message->content
                 ;
             })
         )

@@ -1,10 +1,11 @@
 {
-    "name": "credens/pushpin-bundle",
+    "name": "gamma/pushpin-bundle",
     "description": "Pushpin proxy integration for Symfony applications",
     "type" : "symfony-bundle",
     "require": {
         "ext-curl": "*",
         "fanout/gripcontrol": "^2.0",
+        "symfony/console": "~2.3|~3.4",
         "symfony/framework-bundle": "~2.3|~3.4",
         "jms/serializer": "^1.1",
         "sensio/framework-extra-bundle": "^5.1",
