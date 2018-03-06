@@ -5,16 +5,19 @@ Symfony Bundle that helps you to add a realtime features to your applications us
 
 Features
 ------------
-- Works with [WebSocket-over-HTTP Requests](https://github.com/fanout/pushpin/blob/master/docs/websocket-over-http.md) from Pushpin
-- De serializes (using [jms/serializer](http://jmsyst.com/libs/serializer)) a TEXT events from Pushpin into DTOs (events) specified by your configuration
-- Handling WebSocketEvent with your specific handler
-- Pushpin helpers to publishing to a channel, subscribing, detaching etc.
+- WebSocket-over-HTTP
+    - Works with [WebSocket-over-HTTP Requests](http://pushpin.org/docs/protocols/grip/#websocket) from Pushpin
+    - De serializes (using [jms/serializer](http://jmsyst.com/libs/serializer)) a TEXT events from Pushpin into DTOs (events) specified by your configuration
+    - Handling WebSocketEvent with your specific handler
+    - Pushpin helpers to publishing to a channel, subscribing, detaching etc.
+- HTTP streaming
+    - adds a specific response headers for Pushipn to hold a connections [HTTP GRIP transport](http://pushpin.org/docs/protocols/grip/#http)
 
 Installation
 ------------
 Install a bundle
 
-    composer require "gamma/pushpin-bundle"
+    composer require "stas-zozulja/pushpin-bundle"
 
 Register the bundle in `app/AppKernel.php`:
 
@@ -44,7 +47,7 @@ And enable WebSocket-over-HTTP in ```routes``` config file:
 
 ``` * localhost:80,over_http```
 
-Usage
+Usage (WebSocket-over-HTTP)
 ------------
 Create an event class. Extend ```AbstractJsonEvent```. This class will hold a data from websocket clients:
 ```php
@@ -122,35 +125,34 @@ services:
 ```
 Note: Here is ```type: <logicalEventName>``` should be similar to logical name of event in configuration.
 
-In a Controller this Events should be passed to ```GripControl::encode_websocket_events``` function.
-So last thing you need to do is to create a simple controller that Pushpin will access.
+And last thing you need to do is to create a simple controller that Pushpin will access. Using ```@PushpinResponse``` annotation we can return just ```WebSocketEventsDto``` instance from handler.
 ```php
 <?php
 namespace AppBundle\Controller;
 
-use Gamma\Pushpin\PushpinBundle\Controller\GripController;
 use Gamma\Pushpin\PushpinBundle\DTO\WebSocketEventsDTO;
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
+use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Gamma\Pushpin\PushpinBundle\Configuration\PushpinResponse;
 
-class ChatController extends GripController
+class ChatController extends Controller
 {
 
     /**
      * @Route("/websocket/chat", name="app_websocket_chat_message")
-     * @param Request $request
-     * @param WebSocketEventsDTO $inputEvents
      *
+     * @param WebSocketEventsDto $inputEvents
+     *
+     * @PushpinResponse(format="ws-message")
      * @ParamConverter("inputEvents", converter="gamma.web_socket.events", options={"format": "json"})
+     * 
      * @return Response
      */
-    public function chatMessageAction(Request $request, WebSocketEventsDTO $inputEvents)
+    public function chatMessageAction(WebSocketEventsDTO $inputEvents)
     {
-        return $this->encodeWebSocketEvents(
-            $this->get('gamma.pushpin.grip.events_handler')->handleEvents($inputEvents)
-        );
+        return $this->get('gamma.pushpin.grip.events_handler')->handleEvents($inputEvents);
     }
 }
 ```
@@ -189,6 +191,5 @@ Example of working application
 
 TODO
 ------------
-- HTTP streaming with Pushpin
-- more documentation
+- documentation on HTTP-stream
 - more ```phpunit```
