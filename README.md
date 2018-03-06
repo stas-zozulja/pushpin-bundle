@@ -187,7 +187,7 @@ Here is [additional info on Pushpin](http://pushpin.org/docs/#websockets)
 
 Example of working application
 ------------
-[SimpleChatDemo](https://github.com/smart-gamma/simple-chat-demo)
+[SimpleChatDemo](https://github.com/stas-zozulja/simple-chat-demo)
 
 TODO
 ------------
